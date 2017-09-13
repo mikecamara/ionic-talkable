@@ -3,6 +3,7 @@ import { Nav, Platform, MenuController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
+import * as moment from 'moment';
 
 
 import { HomePage } from '../pages/home/home';
@@ -18,7 +19,8 @@ import { Settings } from "../providers/settings";
 export interface PageInterface {
   title: string;
   component: any;
-  weekPage?: any
+  weekPage?: any;
+  
 }
 @Pipe({
   name: 'chunks'
@@ -49,7 +51,6 @@ export class KeysPipe implements PipeTransform {
 
 export class Talkable {
   @ViewChild(Nav) nav: Nav;
-  
   rootPage: any;
   activePage: any;
   pageReady: boolean = false;
@@ -87,14 +88,28 @@ export class Talkable {
       }
       this.initializeApp();
     });
-    
-    storage.set('currentWeek', 1).then(success => {
-      this.fs.setCurrentWeek(1);
-    });
+    this.storage.get('startedOn').then(date => {
+      let started = moment(date);
+      let now = moment();
+      let timediff = now.diff(started, 'week')
+      //multiple of 7 (aka a week)
+      if(timediff > 0){
+         storage.get('currentWeek').then(success => {
+           if(parseInt(success) <= 10 && timediff > parseInt(success) ){
+             this.storage.set('currentWeek', timediff);
+           }
+          });
+      }
+    })
+    this.storage.get('currentWeek').then((data) => {
+      if(data> 10){
+        this.storage.set('currentWeek', 10);
+      }
+    })
     // used for an example of ngFor and navigation
     this.programPages = [
-      { id: 'CurrentWeekPage', title: 'Current Week', component: TabsControllerPage, icon: "ios-happy-outline", param: 1},
-      { id: 'TenWeekProgramPage', title: 'Entire Program', component: TenWeekProgramPage, icon: "ios-expand-outline"},
+      { id: 'CurrentWeekPage', title: 'Current Week', component: TabsControllerPage, icon: "talkable-current", param: 1},
+      { id: 'TenWeekProgramPage', title: 'Entire Program', component: TenWeekProgramPage, icon: "talkable-overview"},
     ];
     this.wordPages = [
       { id: 'KeyWordSignsPage', title: 'Key Word Signs', component: KeyWordSignsPage, icon: "talkable-key" },
@@ -102,7 +117,7 @@ export class Talkable {
      // { id: "WordListPage", title: 'Word Tracker', component: WordListPage, icon: "ios-clipboard-outline" },
     ];
     this.settingsPages = [
-      { id: "SettingsPage", title: 'Settings', component: SettingsPage, icon: "settings" }
+      { id: "SettingsPage", title: 'Settings', component: SettingsPage, icon: "talkable-settings" }
     ];
 
     // this.weeklyPages = [
@@ -180,7 +195,7 @@ export class Talkable {
 
     
   }
-  
+
   
 checkActive(page){
   return page.id == this.fs.getActivePage();

@@ -1,34 +1,42 @@
 <ion-header>
-  <ion-navbar>
-    <button ion-button=""
-            menuToggle="">
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>
-      {{ week.title }} 
-      <p class='subtitle'> Week {{ week.number }}</p>
-    </ion-title>
-  </ion-navbar>
-</ion-header>
+  <!-- This one for per week colors -->
+    <!-- <ion-navbar color="{{week.number}}"> -->
+    <!-- This one for Default colors -->
+    <ion-navbar [color]="color">
+      <button ion-button menuToggle>
+          <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-title>
+          <p class='subtitle'> Week {{ week.number }}</p>
+          {{ week.title }} 
+      </ion-title>
+    </ion-navbar>
+  </ion-header>
+
 <ion-content id="videoPage">
   <div padding>
     <h1>{{week.title}}</h1>
     <p>Week {{week.number}}</p>
-    <p>Description of weekly content can go here</p>
+    <p>{{ week.description }}</p>
   </div>
   <ion-card *ngFor="let v of week.videos" text-wrap>
      <!-- <video fullscreen="fullscreen" controls>
       <source src="https://www.youtube.com/embed/q8f-DoL1dqQ" type="video/mp4">  
     </video> -->
       
+<<<<<<< HEAD
     <video [attr.id]='v.id' controls class="video" poster="assets/img/vidthumb.jpg"  width="100%" (ended)="watched(v, $event);" hidden>
+=======
+    <video [attr.id]='v.path' controls class="video" poster="assets/img/vidthumb.jpg"  width="100%" (ended)="watched(v, $event);" hidden>
+>>>>>>> 26405e2f8717d087f4ad27d334a7cc60f4734af7
         <source [attr.src]="v.path" type='video/mp4' >
     </video>   
     
-    <ion-item>
-        <ion-thumbnail item-end (click)='playVideo(v.id)'>
+    <ion-item (click)='playVideo(v.path)'>
+        <button ion-button clear item-end large [color]="color"><ion-icon name="play"></ion-icon></button>
+        <!-- <ion-thumbnail item-end >
           <img src="assets/img/vidthumb.jpg" style="object-fit:cover">
-        </ion-thumbnail>
+        </ion-thumbnail> -->
         <h1>{{v.title}}</h1>
         <p>{{v.description}}</p>
       </ion-item>
@@ -58,3 +66,5 @@
     </ion-item> -->
   </ion-card>
 </ion-content>
+
+

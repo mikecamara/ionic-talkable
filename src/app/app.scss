@@ -15,7 +15,7 @@
 // automatically applied to the <body> element in the app.
 @import "../theme/icons";
 .activeHighlight {
-    background-color: map-get($colors, light)
+  //background-color:;
 }
 .toolbar-title { 
   .subtitle {
@@ -45,6 +45,7 @@
   text-align: center;
 }
 
+<<<<<<< HEAD
 /*
 //DEFAULT
 .talkable-video:before,
@@ -103,6 +104,15 @@
     opacity: 0.9;
 }
 */
+=======
+ .item-md,
+ .item-ios{
+  color: color($colors, 1);
+  }
+
+
+
+>>>>>>> 26405e2f8717d087f4ad27d334a7cc60f4734af7
 
 
 

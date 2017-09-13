@@ -18,12 +18,14 @@ export class TabsControllerPage {
   weeklySignsTabRoot: any = WeeklySignsPage;
   hintsTipsTabRoot: any = HintsTipsPage;
   canEnter: boolean;
+  color: any='primary';
   constructor(public navCtrl: NavController,  
               public navParams: NavParams, 
               public fs: FileServiceProvider, 
               private storage: Storage,
               private alertCtrl: AlertController,
               private settings: Settings) {
+                this.color = this.navParams.data;
                 this.fs.getWeekContent(this.navParams.data).subscribe((data) => {
         this.week = data;
         // loadingPopup.dismiss();
